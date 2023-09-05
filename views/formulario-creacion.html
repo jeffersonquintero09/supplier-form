@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Proveedor</title>
+  <!-- Enlaza el archivo de estilos de Bootstrap 5.3.0 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar-->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light py-3 bg-primary">
+        <div class="container">
+            <!-- Navbar Brand -->
+            <a href="https://pcpplasticos.co/" class="navbar-brand">
+                <img src="https://pcpplasticos.co/wp-content/uploads/2022/06/logo-pcp-en-blanco.png" alt="logo" width="150">
+            </a>
+        </div>
+    </nav>
+  </header>
+
+  <div class="container mt-5">
+    <h2>Formulario de Proveedor</h2>
+    <form id="proveedorForm" action="/crearProveedor" method="post" enctype="multipart/form-data">
+      <!-- Campos del formulario -->
+      <div class="mb-3">
+        <label for="nit" class="form-label">NIT (Con dígito de verificación)</label>
+        <input type="text" class="form-control" id="nit" name="nit" required>
+      </div>
+      <div class="mb-3">
+        <label for="nitSinVerificacion" class="form-label">NIT (Sin dígito de verificación)</label>
+        <input type="text" class="form-control" id="nitSinVerificacion" name="nitSinVerificacion" required>
+      </div>
+      <div class="mb-3">
+        <label for="razonSocial" class="form-label">Razón Social</label>
+        <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
+      </div>
+      <div class="mb-3">
+        <label for="direccionEmpresa" class="form-label">Dirección de la Empresa</label>
+        <input type="text" class="form-control" id="direccionEmpresa" name="direccionEmpresa" required>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="tel" class="form-control" id="telefono" name="telefono" required>
+      </div>
+      <div class="mb-3">
+        <label for="celular" class="form-label">Celular</label>
+        <input type="tel" class="form-control" id="celular" name="celular">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+
+      <!-- Campos de datos de contacto -->
+      <h3>Datos de Contacto</h3>
+      <div class="mb-3">
+        <label for="nombreContacto" class="form-label">Nombre de Contacto</label>
+        <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required>
+      </div>
+      <div class="mb-3">
+        <label for="segundoNombre" class="form-label">Segundo Nombre</label>
+        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre">
+      </div>
+      <div class="mb-3">
+        <label for="apellidos" class="form-label">Apellidos</label>
+        <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+      </div>
+      <div class="mb-3">
+        <label for="cargo" class="form-label">Posición o Cargo</label>
+        <input type="text" class="form-control" id="cargo" name="cargo" required>
+      </div>
+      <div class="mb-3">
+        <label for="direccionContacto" class="form-label">Dirección de Contacto</label>
+        <input type="text" class="form-control" id="direccionContacto" name="direccionContacto" required>
+      </div>
+      <div class="mb-3">
+        <label for="telefonoContacto" class="form-label">Teléfono de Contacto</label>
+        <input type="tel" class="form-control" id="telefonoContacto" name="telefonoContacto" required>
+      </div>
+      <div class="mb-3">
+        <label for="celularContacto" class="form-label">Celular de Contacto</label>
+        <input type="tel" class="form-control" id="celularContacto" name="celularContacto">
+      </div>
+      <div class="mb-3">
+        <label for="emailContacto" class="form-label">Email de Contacto</label>
+        <input type="email" class="form-control" id="emailContacto" name="emailContacto" required>
+      </div>
+
+      <!-- Campo para adjuntar archivos -->
+      <div class="mb-3">
+        <label for="archivos" class="form-label">Adjuntar archivos (límite de 20MB)</label>
+        <input type="file" class="form-control" id="archivos" name="archivos" accept=".pdf,.doc,.docx" multiple>
+      </div>
+
+      <!-- Botón para enviar el formulario -->
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+
+  <!-- Enlaza el archivo JavaScript de Bootstrap 5.3.0 y Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <!-- Enlaza el archivo JavaScript de verification.js -->
+  <script src="/scripts/verification-formulario-creacion.js"></script>
+</body>
+</html>
