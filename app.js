@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const path = require('path'); 
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +21,28 @@ const companyDB = process.env.COMPANY_DB;
 const serviceLayerUser = process.env.SL_USER;
 const serviceLayerPassword = process.env.SL_PASSWORD;
 const serviceLayerUrl = process.env.SL_URL;
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT;
+const smtpSecure = process.env.SMTP_SECURE;
+const emailUser = process.env.EMAIL_USER;
+const emailPassword = process.env.EMAIL_PASSWORD;
+const mailTo = process.env.MAIL_TO;
+
+// Create a SMTP transporter object
+const transporter = nodemailer.createTransport(
+  {
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpSecure,
+      auth: {
+          user: emailUser,
+          pass: emailPassword
+      },
+      logger: true,
+      transactionLog: true, // include SMTP traffic in the logs
+      allowInternalNetworkInterfaces: false
+  }
+);
 
 // Función para iniciar sesión en el Service Layer
 async function loginToServiceLayer() {
@@ -166,6 +189,28 @@ app.post('/crearProveedor', upload.none(), async (req, res) => {
     // Verifica la respuesta y devuelve la respuesta apropiada al cliente
     if (response.status === 201) {
       // Si se creó el proveedor con éxito, puedes redirigir al usuario a una página de confirmación
+      const mailOptions = {
+        from: `${emailUser}`, // Reemplaza con tu dirección de correo
+        to: `${mailTo}`, // Reemplaza con la dirección de correo de compras
+        subject: 'Nuevo proveedor creado',
+        text: 'Se ha creado un nuevo proveedor con los siguientes datos:\n\n' +
+              `Código SAP: P${nitSinVerificacion}\n` +
+              `Nombre: ${razonSocial}\n` +
+              `NIT: ${nit}\n` +
+              `Dirección: ${direccionEmpresa}\n` +
+              `Teléfono: ${telefono}\n` +
+              `Email: ${email}\n`
+      };
+
+      // Envía el correo electrónico
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error al enviar el correo electrónico:', error);
+        } else {
+          console.log('Correo electrónico enviado:', info.response);
+        }
+      });
+
       return res.json({ mensaje: 'Proveedor creado exitosamente' });
     } else {
       // Maneja otros casos de respuesta del Service Layer, como errores
