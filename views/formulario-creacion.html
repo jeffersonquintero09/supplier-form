@@ -24,13 +24,19 @@
     <h2>Formulario de Proveedor</h2>
     <form id="proveedorForm" action="/crearProveedor" method="post" enctype="multipart/form-data">
       <!-- Campos del formulario -->
-      <div class="mb-3">
-        <label for="nit" class="form-label">NIT (Con dígito de verificación)</label>
-        <input type="text" class="form-control" id="nit" name="nit" required>
-      </div>
-      <div class="mb-3">
-        <label for="nitSinVerificacion" class="form-label">NIT (Sin dígito de verificación)</label>
-        <input type="text" class="form-control" id="nitSinVerificacion" name="nitSinVerificacion" required>
+      <div class="row mb-3">
+        <div class="col">
+          <div class="form-outline">
+            <label for="nit" class="form-label">NIT (Con dígito de verificación)</label>
+            <input type="text" class="form-control" id="nit" name="nit" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <label for="nitSinVerificacion" class="form-label">NIT (Sin dígito de verificación)</label>
+            <input type="text" class="form-control" id="nitSinVerificacion" name="nitSinVerificacion" required>
+          </div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="razonSocial" class="form-label">Razón Social</label>
@@ -54,14 +60,20 @@
       </div>
 
       <!-- Campos de datos de contacto -->
-      <h3>Datos de Contacto</h3>
-      <div class="mb-3">
-        <label for="nombreContacto" class="form-label">Nombre de Contacto</label>
-        <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required>
-      </div>
-      <div class="mb-3">
-        <label for="segundoNombre" class="form-label">Segundo Nombre</label>
-        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre">
+      <h2 class="mt-5">Datos de Contacto</h2>
+      <div class="row mb-3">
+        <div class="col">
+          <div class="form-outline">
+            <label for="nombreContacto" class="form-label">Primer Nombre</label>
+            <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <label for="segundoNombre" class="form-label">Segundo Nombre</label>
+            <input type="text" class="form-control" id="segundoNombre" name="segundoNombre">
+          </div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="apellidos" class="form-label">Apellidos</label>
@@ -95,9 +107,18 @@
       </div>
 
       <!-- Botón para enviar el formulario -->
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      <button type="submit" class="btn btn-primary mb-3">Enviar</button>
     </form>
   </div>
+
+  <footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2023 Copyright:
+      <a class="text-dark text-decoration-none" href="https://pcpplasticos.co/">pcpplasticos.co</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
 
   <!-- Enlaza el archivo JavaScript de Bootstrap 5.3.0 y Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
