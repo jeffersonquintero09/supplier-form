@@ -11,8 +11,6 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
-// Configuración multer para manejar form-data
-const upload = multer();
 
 let sessionId = '';
 
@@ -27,6 +25,22 @@ const smtpSecure = process.env.SMTP_SECURE;
 const emailUser = process.env.EMAIL_USER;
 const emailPassword = process.env.EMAIL_PASSWORD;
 const mailTo = process.env.MAIL_TO;
+
+
+// Configuración multer para manejar archivos adjuntos
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Se define la carpeta de destino para los archivos adjuntos
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    // Se define el nombre de los archivos adjuntos (se pueden personalizar)
+    cb(null, file.originalname);
+  }
+});
+
+// Configuración multer para manejar form-data
+const upload = multer({ storage: storage });
 
 // Create a SMTP transporter object
 const transporter = nodemailer.createTransport(
@@ -121,13 +135,17 @@ app.post('/verificarProveedor', async (req, res) => {
 
 
 // Ruta para crear un nuevo proveedor a través de Service Layer
-app.post('/crearProveedor', upload.none(), async (req, res) => {
+app.post('/crearProveedor', upload.array('archivos', 5), async (req, res) => {
   // Aquí se manejan los datos del formulario que se envían en el req.body
   const { nit, nitSinVerificacion, razonSocial, direccionEmpresa, telefono, celular, email,
     nombreContacto, segundoNombre, apellidos, cargo, direccionContacto, 
     telefonoContacto, celularContacto, emailContacto } = req.body;
+  
+  // Obtiene la lista de archivos adjuntos desde req.files
+  const archivosAdjuntos = req.files;    
     
-    console.log(req.body)
+  //console.log(req.body)
+
   // Se realiza la solicitud al Service Layer para crear un nuevo proveedor
   try {
     // Iniciar sesión antes de crear el proveedor
@@ -194,34 +212,45 @@ app.post('/crearProveedor', upload.none(), async (req, res) => {
         to: `${mailTo}`, // Reemplaza con la dirección de correo de compras
         subject: 'Nuevo proveedor creado',
         text: 'Se ha creado un nuevo proveedor con los siguientes datos:\n\n' +
-              `Código SAP: P${nitSinVerificacion}\n` +
-              `Nombre: ${razonSocial}\n` +
-              `NIT: ${nit}\n` +
-              `Dirección: ${direccionEmpresa}\n` +
-              `Teléfono: ${telefono}\n` +
-              `Email: ${email}\n`
-      };
+          `Código SAP: P${nitSinVerificacion}\n` +
+          `Nombre: ${razonSocial}\n` +
+          `NIT: ${nit}\n` +
+          `Dirección: ${direccionEmpresa}\n` +
+          `Teléfono: ${telefono}\n` +
+          `Email: ${email}\n`,
+        attachments: archivosAdjuntos ? archivosAdjuntos.map((archivo) => {
+          if (archivo.path) {
+            return {
+              filename: archivo.originalname,
+              path: archivo.path,
+              contentType: archivo.mimetype
+            };
+          }
+          return null; // Otra opción podría ser excluir el archivo si no tiene path
+        }).filter(Boolean) : []          
+      };      
+        
+      console.log('Archivos adjuntos:', archivosAdjuntos);
+
+      console.log('Archivos adjuntos al correo:', mailOptions.attachments);
 
       // Envía el correo electrónico
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error('Error al enviar el correo electrónico:', error);
+          res.status(500).json({ mensaje: 'Error al enviar el correo electrónico', error: error.message });
         } else {
           console.log('Correo electrónico enviado:', info.response);
+          res.json({ mensaje: 'Proveedor creado exitosamente' });
         }
-      });
-
-      return res.json({ mensaje: 'Proveedor creado exitosamente' });
-    } else {
-      // Maneja otros casos de respuesta del Service Layer, como errores
-      return res.json({ mensaje: 'Hubo un error al crear el proveedor' });
+      });      
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ mensaje: 'Error al crear el proveedor', error: error.message });
+      console.error(error);
+      res.status(500).json({ mensaje: 'Error al crear el proveedor', error: error.message });
   } finally {
-    // Cierra sesión después de la creación del proveedor
-    await logoutFromServiceLayer();
+      // Cierra sesión después de la creación del proveedor
+      await logoutFromServiceLayer();
   }
 });
 

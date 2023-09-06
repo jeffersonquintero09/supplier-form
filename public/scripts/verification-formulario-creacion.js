@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const celularContacto = document.getElementById('celularContacto').value;
     const emailContacto = document.getElementById('emailContacto').value;
 
+    // Campo de archivos
+    const archivosInput = document.getElementById('archivos');
+
     // Realiza las validaciones de campos para el formato de NIT
     if (!nit || !/^\d{9}-\d$/.test(nit)) {
       alert('Por favor, ingresa un NIT válido en el formato 123456789-0.');
@@ -72,6 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('telefonoContacto', telefonoContacto);
     formData.append('celularContacto', celularContacto);
     formData.append('emailContacto', emailContacto);
+
+    // Agrega los archivos al FormData
+    for (const archivo of archivosInput.files) {
+      formData.append('archivos', archivo);
+    }
 
     //console.log("Valor de nit:", nit);
 
