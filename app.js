@@ -3,6 +3,7 @@ const axios = require('axios');
 const path = require('path'); 
 const multer = require('multer');
 const nodemailer = require('nodemailer');
+const session = require('express-session');
 require('dotenv').config();
 
 const app = express();
@@ -25,7 +26,15 @@ const smtpSecure = process.env.SMTP_SECURE;
 const emailUser = process.env.EMAIL_USER;
 const emailPassword = process.env.EMAIL_PASSWORD;
 const mailTo = process.env.MAIL_TO;
+const sessionSecret = process.env.SESSION_SECRET;
 
+
+// Configuración express-session
+app.use(session({
+  secret: `${sessionSecret}`, 
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Configuración multer para manejar archivos adjuntos
 const storage = multer.diskStorage({
@@ -96,8 +105,16 @@ app.get('/', (req, res) => {
 
 // Ruta para el formulario de creación
 app.get('/formulario', (req, res) => {
+  // Verifica si req.session.verificado es true
+  if (req.session.verificado) {
+    // Si es true, muestra el formulario
     res.sendFile(path.join(__dirname, 'views', 'formulario-creacion.html'));
-  });
+  } else {
+    // Si no es true, redirige de vuelta a la página de verificación
+    res.redirect('/');
+  }
+});
+
 
 // Ruta para verificar si el proveedor existe
 app.post('/verificarProveedor', async (req, res) => {
@@ -115,10 +132,12 @@ app.post('/verificarProveedor', async (req, res) => {
       if (response.status === 200) {
         return res.json({ mensaje: 'Proveedor ya existe en el sistema' });
       } else {
+        req.session.verificado = true;
         return res.json({ mensaje: 'Proveedor no encontrado, proceda al formulario' });
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
+        req.session.verificado = true;
         return res.json({ mensaje: 'Proveedor no encontrado, proceda al formulario' });
       } else {
         throw error;
