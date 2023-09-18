@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nit = document.getElementById('nit');
   
     btnVerificar.addEventListener('click', async () => {
-      if (nit.value.length > 0 && nit.value.length <= 10 && /^[0-9]+$/.test(nit.value)) {
+      if (nit.value.length > 0 && nit.value.length <= 9 && /^[0-9]+$/.test(nit.value)) {
         try {
           const response = await fetch('/verificarProveedor', {
             method: 'POST',

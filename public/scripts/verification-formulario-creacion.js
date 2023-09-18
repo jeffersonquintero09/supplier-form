@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nit = document.getElementById('nit').value;
     const nitSinVerificacion = document.getElementById('nitSinVerificacion').value;
     const razonSocial = document.getElementById('razonSocial').value.toUpperCase();
+    const regimenTributario = document.getElementById('regimenTributario').value;
     const direccionEmpresa = document.getElementById('direccionEmpresa').value.toUpperCase();
     const telefono = document.getElementById('telefono').value;
     const celular = document.getElementById('celular').value;
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return; // Detiene el proceso si la Razón Social está en blanco
     }
 
+    if (!regimenTributario) {
+      alert('Por favor, selecciona un Régimen Tributario.');
+      return; // Detiene el proceso si el Régimen Tributario está en blanco
+    }
+
     if (!direccionEmpresa) {
       alert('Por favor, ingresa la Dirección de la Empresa.');
       return; // Detiene el proceso si la Dirección de la Empresa está en blanco
@@ -63,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('nit', nit);
     formData.append('nitSinVerificacion', nitSinVerificacion);
     formData.append('razonSocial', razonSocial);
+    formData.append('regimenTributario', regimenTributario);
     formData.append('direccionEmpresa', direccionEmpresa);
     formData.append('telefono', telefono);
     formData.append('celular', celular);

@@ -42,6 +42,19 @@
         <label for="razonSocial" class="form-label">Razón Social</label>
         <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
       </div>
+      <!-- Campo de Régimen Tributario -->
+      <div class="mb-3">
+        <label for="regimenTributario" class="form-label">Régimen Tributario</label>
+        <select class="form-select" id="regimenTributario" name="regimenTributario" required>
+          <option value="GC">Gran Contribuyente</option>
+          <option value="GCA">Gran Contribuyente Autorret</option>
+          <option value="RC">Régimen Común</option>
+          <option value="RCA">Régimen Común Autorret</option>
+          <option value="RE">Régimen Especial</option>
+          <option value="RS">Régimen Simplificado</option>
+          <option value="RST">Régimen Simple de Tributación</option>
+        </select>
+      </div>
       <div class="mb-3">
         <label for="direccionEmpresa" class="form-label">Dirección de la Empresa</label>
         <input type="text" class="form-control" id="direccionEmpresa" name="direccionEmpresa" required>

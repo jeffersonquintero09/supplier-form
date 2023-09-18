@@ -156,7 +156,7 @@ app.post('/verificarProveedor', async (req, res) => {
 // Ruta para crear un nuevo proveedor a través de Service Layer
 app.post('/crearProveedor', upload.array('archivos', 5), async (req, res) => {
   // Aquí se manejan los datos del formulario que se envían en el req.body
-  const { nit, nitSinVerificacion, razonSocial, direccionEmpresa, telefono, celular, email,
+  const { nit, nitSinVerificacion, razonSocial, regimenTributario, direccionEmpresa, telefono, celular, email,
     nombreContacto, segundoNombre, apellidos, cargo, direccionContacto, 
     telefonoContacto, celularContacto, emailContacto } = req.body;
   
@@ -191,6 +191,7 @@ app.post('/crearProveedor', upload.array('archivos', 5), async (req, res) => {
       VatGroupLatinAmerica: 'IDS19',
       Properties1: 'tYES',
       U_BPCO_Address: direccionEmpresa,
+      U_BPCO_RTC: regimenTributario,
       BPAddresses: [
         {
           AddressName: 'PRINCIPAL',
