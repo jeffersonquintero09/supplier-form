@@ -115,6 +115,11 @@ app.get('/formulario', (req, res) => {
   }
 });
 
+// Ruta para la página de confirmación
+app.get('/confirmacion', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'confirmacion.html'));
+});
+
 
 // Ruta para verificar si el proveedor existe
 app.post('/verificarProveedor', async (req, res) => {
@@ -261,6 +266,7 @@ app.post('/crearProveedor', upload.array('archivos', 5), async (req, res) => {
           res.status(500).json({ mensaje: 'Error al enviar el correo electrónico', error: error.message });
         } else {
           console.log('Correo electrónico enviado:', info.response);
+          req.session.verificado = false;
           res.json({ mensaje: 'Proveedor creado exitosamente' });
         }
       });      

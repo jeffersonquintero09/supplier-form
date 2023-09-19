@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.status === 200) {
         alert(responseData.mensaje); // Muestra una alerta si la creación fue exitosa
-        // Puedes redirigir al usuario a una página de confirmación aquí
+        // Redirige al usuario a la página de confirmación
+        window.location.href = '/confirmacion';
       } else {
         // Extract and display the error message from the server response
         const errorResponse = responseData.error;
