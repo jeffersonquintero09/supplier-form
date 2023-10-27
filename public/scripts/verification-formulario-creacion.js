@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const archivosInput = document.getElementById('archivos');
 
     // Realiza las validaciones de campos para el formato de NIT
-    if (!nit || !/^\d{9}-\d$/.test(nit)) {
+    if (!nit || !/^\d{1,10}-\d$/.test(nit)) {
       alert('Por favor, ingresa un NIT válido en el formato 123456789-0.');
       return; // Detiene el proceso si el NIT no es válido
     }
 
-    if (!nitSinVerificacion || nitSinVerificacion.length > 9 || !/^[0-9]+$/.test(nitSinVerificacion)) {
+    if (!nitSinVerificacion || nitSinVerificacion.length > 10 || !/^[0-9]+$/.test(nitSinVerificacion)) {
       alert('Por favor, ingresa un NIT sin verificación válido.');
       return; // Detiene el proceso si el NIT sin verificación no es válido
     }
